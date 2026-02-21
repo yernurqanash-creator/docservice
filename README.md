@@ -71,10 +71,10 @@ Supports dynamic port allocation for production environments.
 ### 🔹 Application Build
 ![Build](docs/screenshot-1.png)
 
-### 🔹 Docker Configuration
+### 🔹 File processing progress
 ![Docker](docs/screenshot-2.png)
 
-### 🔹 Cloud Deployment Attempt
+### 🔹 File reading result
 ![Deploy](docs/screenshot-3.png)
 
 ---
