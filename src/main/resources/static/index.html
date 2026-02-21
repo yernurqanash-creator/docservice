@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="kk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>DocService — AI-ready Markdown/JSON</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <h1>DocService</h1>
+          <small>AI-ready Markdown / JSON chunks</small>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="pill" id="pingBtn" title="Check backend">
+          <span class="dot" id="dot"></span>
+          <span id="backendLabel">Backend</span>
+        </button>
+
+        <button class="pill" id="themeBtn" title="Toggle theme">
+          <span class="dot ok" style="opacity:.55"></span>
+          <span id="themeLabel">Dark</span>
+        </button>
+
+        <button class="pill" id="copyAllBtn" title="Copy all chunks text">Copy all</button>
+        <button class="pill" id="dlJsonBtn" title="Download JSON" disabled>Download .json</button>
+        <a class="pill" href="/api" target="_blank" title="API docs JSON"> API</a> 
+        <a class="pill" href="/docs.html" target="_blank" title="Pretty docs">Docs</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="hero">
+      <h2>Transform documents into <span>AI-Ready</span> Markdown / JSON</h2>
+      <p>PDF жүктейсің → backend (/convert-smart-json) жібереді → біз экранға <b>оқылатын таза текст</b> + chunk copy + preview шығарамыз.</p>
+    </div>
+
+    <div class="card uploader">
+      <div class="drop" id="drop">
+        <div class="drop-left">
+          <div class="cloud" aria-hidden="true">☁️</div>
+          <div>
+            <h3>Файлды осы жерге жүктейсіз</h3>
+            <p>PDF (тәжірибе үшін). Backend: <span class="badge" id="baseShown">http://localhost:8091</span></p>
+          </div>
+        </div>
+
+        <div class="drop-right">
+         <input
+            type="file"
+            id="file"
+            accept=".pdf,.docx,.png,.jpg,.jpeg,.zip"
+            hidden
+         />
+          <button class="btn" id="pickBtn">Файл таңдау</button>
+          <button class="btn primary" id="convertBtn" disabled>Convert</button>
+        </div>
+      </div>
+
+      <div class="row" style="margin-top:10px; flex-wrap:wrap">
+  <span class="badge">PDF</span>
+  <span class="badge">DOCX</span>
+  <span class="badge">PNG / JPG</span>
+  <span class="badge">ZIP</span>
+</div>
+
+      <!-- ✅ Progress (жалғыз) -->
+      <div class="progress-wrap" id="progressWrap" hidden>
+        <div class="progress-top">
+          <span id="progressLabel">Uploading…</span>
+          <span class="badge" id="progressPct">0%</span>
+        </div>
+        <div class="progress">
+          <div class="progress-bar" id="progressBar" style="width:0%"></div>
+        </div>
+      </div>
+
+      <div class="status">
+        <div id="fileInfo">Файл таңдалмады</div>
+        <div class="row">
+          <span class="badge" id="modeBadge">Endpoint: /convert-smart-json</span>
+          <span class="badge" id="viewBadge">View: Readable text</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="height:14px"></div>
+
+    <div class="grid">
+      <!-- LEFT -->
+      <div class="panel">
+        <div class="row" style="justify-content:space-between">
+          <div>
+            <h4>Result</h4>
+            <div class="sub">
+              <span id="metaLine">Ready.</span>
+              <div class="row">
+                <button class="btn" id="copyResultBtn" disabled>Copy</button>
+                <button class="btn" id="dlMdBtn" disabled>Download .md</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top:12px">
+          <div class="field">
+            <label>Backend URL</label>
+            <input id="baseUrl" value="http://localhost:8091" />
+          </div>
+        </div>
+
+        <pre class="out" id="out">Файл таңда да Convert бас.</pre>
+      </div>
+
+      <!-- RIGHT -->
+      <div class="panel">
+        <div class="row" style="justify-content:space-between">
+          <div>
+            <h4>Chunks</h4>
+            <div class="sub">
+              <span id="chunksInfo">0 chunks</span>
+              <span id="copiedInfo"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ✅ Search (жалғыз) -->
+        <div class="search">
+          <input id="search" placeholder="Search in chunks… (мыс: практика, university, 2025)" />
+          <button class="btn" id="clearSearchBtn" title="Clear">Clear</button>
+        </div>
+
+        <div class="chunks" id="chunks"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ✅ Toast (жалғыз) -->
+  <div class="toast" id="toast">Copied</div>
+
+  <!-- ✅ Modal preview (жалғыз) -->
+  <div class="modal" id="modal" hidden>
+    <div class="modal-backdrop" id="modalClose"></div>
+
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-head">
+        <div>
+          <div class="modal-title" id="modalTitle">CHUNK</div>
+          <div class="modal-sub" id="modalSub">—</div>
+        </div>
+        <div class="row">
+          <button class="btn" id="copyChunkBtn">Copy</button>
+          <button class="btn" id="closeBtn">Close</button>
+        </div>
+      </div>
+
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>

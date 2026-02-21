@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>DocService — API Docs</title>
+  <style>
+    body{font-family:system-ui,Segoe UI,Roboto,Arial;margin:0;padding:28px;background:#0b1222;color:#eaf0ff}
+    .card{max-width:920px;margin:0 auto;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:18px}
+    h1{margin:0 0 10px}
+    code,pre{background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px;display:block;overflow:auto}
+    .row{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+    .pill{display:inline-block;padding:10px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:#eaf0ff;text-decoration:none}
+    small{opacity:.75}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="row">
+      <a class="pill" href="/" >← Back</a>
+      <a class="pill" href="/api" target="_blank">/api JSON</a>
+      <a class="pill" href="/health" target="_blank">/health</a>
+    </div>
+
+    <h1>DocService API</h1>
+    <small>Upload: <b>multipart/form-data</b>, field name: <b>file</b></small>
+
+    <h2>Endpoints</h2>
+    <pre><code>POST /convert-smart-json   (PDF/DOCX/PNG/JPG/ZIP) → JSON chunks
+POST /convert-smart-md     (PDF/DOCX/PNG/JPG/ZIP) → Markdown text</code></pre>
+
+    <h2>curl examples</h2>
+    <pre><code>curl -X POST "http://localhost:8091/convert-smart-json" ^
+  -H "Content-Type: multipart/form-data" ^
+  -F "file=@kundelik.pdf"</code></pre>
+
+    <pre><code>curl -X POST "http://localhost:8091/convert-smart-md" ^
+  -H "Content-Type: multipart/form-data" ^
+  -F "file=@kundelik.docx"</code></pre>
+
+    <h2>Response example (JSON)</h2>
+    <pre><code>{
+  "format": "markdown",
+  "meta": { "filename": "...", "contentType": "...", "sizeBytes": 123 },
+  "chunksCount": 8,
+  "chunks": [
+    { "index": 0, "chars": 1400, "text": "..." }
+  ]
+}</code></pre>
+  </div>
+</body>
+</html>
