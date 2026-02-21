@@ -4,11 +4,15 @@ WORKDIR /app
 
 COPY . .
 
-#  mvnw-қа execute permission беру
+# mvnw-қа execute permission беру
 RUN chmod +x mvnw
 
+# Maven build
 RUN ./mvnw clean package -DskipTests
 
-EXPOSE 8080
+# Koyeb PORT береді
+ENV PORT=8000
 
-CMD ["java", "-jar", "target/docservice-0.0.1-SNAPSHOT.jar"]
+EXPOSE 8000
+
+CMD ["java", "-jar", "target/docservice-0.0.1-SNAPSHOT.jar", "--server.port=8000"]
